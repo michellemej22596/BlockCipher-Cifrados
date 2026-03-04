@@ -20,8 +20,8 @@ def build_png(out_path: str, header: bytes, body: bytes) -> None:
 
 if __name__ == "__main__":
     # input/output (ajusta según tus nombres)
-    header_path = "../images/header.bin"
-    body_path = "../images/body.bin"
+    header_path = "../images/pic_header.ppm"
+    body_path   = "../images/pic_body.ppm"
 
     with open(header_path, "rb") as f:
         header = f.read()
@@ -33,8 +33,9 @@ if __name__ == "__main__":
     ecb_body = encrypt_body_ecb(body, key)
     cbc_body = encrypt_body_cbc(body, key)
 
-    build_png("../images/pic_aes.png", header, ecb_body)
-    build_png("../images/pic_des.png", header, cbc_body)
+    build_ppm("../images/pic_aes_ecb.ppm", header, body_ecb)
+    build_ppm("../images/pic_aes_cbc.ppm", header, body_cbc)
+    with open("../images/pic_aes_cbc.iv","wb") as f: f.write(iv)
 
     print("Key len:", len(key), "bytes")
     print("Listo: pic_aes.png (ECB) y pic_des.png (CBC)")
